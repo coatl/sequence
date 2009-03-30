@@ -1,0 +1,19 @@
+=== 0.2.0 / 2008-08-28
+
+* 2 Major Enhancements:
+  * all tests now pass
+  * many small fixes in List; List is believed to actually work in all cases!
+
+* 2 Minor Enhancements:
+  * cleanup of Indexed#scan*
+  * try not to use out of bounds indexes (including negative)
+  * more List test data created by wrapping existing data in List(s)
+  * enabled some tests which had been failing
+
+=== 0.1.0 / 2006-10-05
+
+* 1 major enhancement
+
+  * Birthday!
+
+
