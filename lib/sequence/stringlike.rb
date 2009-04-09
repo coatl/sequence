@@ -4,11 +4,6 @@ require 'sequence/subseq'
 
 class Sequence
   module StringLike
-    # Return an empty object used for returning a sequence of elements.
-    # The only method required of this object is << (append to the sequence).
-    #usually [] or ""
-    def new_data; '' end
-
     def data_class; String end
     
     def like; StringLike end

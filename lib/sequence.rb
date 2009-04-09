@@ -10,11 +10,8 @@
 
 require "forwardable"
 require 'assert'
+require 'weakrefset'
 require 'sequence/version'
-require 'sequence/weakrefset'
-
-WeakRefSet=Set
-warn "warning: sequence uses Set instead of WeakRefSet; memory leak results"
 
 =begin todo
 
@@ -84,6 +81,13 @@ class Sequence
     end
     
 
+    # Return an empty object used for returning a sequence of elements.
+    # The only method required of this object is << (append to the sequence).
+    #usually [] or ""
+    def new_data
+        data_class.new
+    end
+    
     # attempt to read up to +len+ elements. the  position is left just after the data read.
     # #read may return less than the whole requested amount if less data than requested in 
     #+len+ is available. This can happen at end of file or if more data is simply unavailable

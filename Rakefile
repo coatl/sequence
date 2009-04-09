@@ -5,14 +5,7 @@ require 'hoe'
 require 'lib/sequence/version.rb'
  
  
- if $*==["test"]
-  #hack to get 'rake test' to stay in one process
-  #which keeps netbeans happy
-  $:<<"lib"
-  require "test/test_all.rb"
-  Test::Unit::AutoRunner.run
-  exit
-end
+ 
  
    Hoe.new("sequence", Sequence::VERSION) do |_|
 

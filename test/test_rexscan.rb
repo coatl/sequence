@@ -257,7 +257,7 @@ $Debug=true
         const_set k, xk=Class.new(xk)
         xk.instance_eval do
           define_method :a_seq do
-            result=super()
+            result=super
             result.maxmatchlen=6
             result
           end
@@ -273,7 +273,7 @@ $Debug=true
         const_set k, xk=Class.new(xk)
         xk.instance_eval do
           define_method :a_seq do
-            result=Sequence::List.new([wrappee=super()])
+            result=Sequence::List.new([wrappee=super])
             result.pos=wrappee.pos
             return result
           end
@@ -290,7 +290,7 @@ $Debug=true
         const_set k, xk=Class.new(xk)
         xk.instance_eval do
           define_method :a_seq do
-            result=Sequence::List.new([wrappee=super()])
+            result=Sequence::List.new([wrappee=super])
             chunk=rand_pos_pair
             chunk=chunk.first..chunk.last
             result[chunk]=result[chunk]
@@ -344,25 +344,6 @@ $Debug=true
 =end
  
     class Indexed
-    def test_optional_capture
-       seq=a_seq
-       word=seq.scan /(more of )?that (tough)/
-       md=seq.last_match
-       assert_equal "that tough", word
-       assert_equal "that tough", md[0]
-       assert_equal nil, md[1]
-       assert_equal "tough", md[2]
-        
-       assert_equal md.begin(0), OFFSET
-       assert_equal md.end(0), OFFSET+10
-       assert_equal md.begin(1), nil
-       assert_equal md.end(1), nil
-       assert_equal md.begin(0), OFFSET+5
-       assert_equal md.end(0), OFFSET+10
-
-    end
-
-
     RANDOMIZED_METHODS=[:test_slice,:test_insert,:test_delete,:test_modify]
     undef test_randomized_methods_some_more
     def test_randomized_methods_some_more n=50

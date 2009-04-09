@@ -1,164 +1,113 @@
 # $Id$
-# Copyright (C) 2006,2008  Caleb Clausen
+# Copyright (C) 2006  Caleb Clausen
 # Distributed under the terms of Ruby's license.
 
-#require 'yaml'
-require 'set'
-begin
-  require 'weakref'
-rescue Exception
-end
+require 'yaml'
+require 'assert'
 
 # WeakRefSet implements an unordered collection of weak references to objects.
 # These references don't prevent garbage collection on these objects.  As these
 # objects are thrown away so does their entry in a WeakRefSet.  Immmediate
 # objects are not handled by this class (and wouldn't be useful).
-class WeakRefSet<Set
-  include Enumerable
-  # create a new WeakRefSet from an optional Enumerable (of objects)
-  # which is optionally processed through a block
-  def initialize(items) # :yield: obj
-    replace(items)
-  end
-  class<<self
+class WeakRefSet
+    include Enumerable
+    # create a new WeakRefSet from an optional Enumerable (of objects)
+    # which is optionally processed through a block
+    def initialize(items) # :yield: obj
+        replace(items)
+    end
+    class<<self
       def [] *items
         new(items)
       end
-  end
+    end
 
-  private
-  def finalizer(id)
-    @ids.delete(id)
-  end
+    private
+    def finalizer(id)
+        @ids.delete(id)
+    end
 
-sss="a string"
-if WeakRef.respond_to? :create_weakref   and  #rubinius
-   WeakRef.create_weakref(sss).at(0).equal?(sss)
+    public
 
-  def ref o
-    WeakRef.create_weakref o
-  end
-  def unref id
-    id.at(0)
-  rescue Exception
-    return nil
-  end
 
-else
 
-  def ref o
-    o.__id__
-  end
-  def unref id
-    ObjectSpace._id2ref id
-  rescue RangeError
-    return nil
-  end
-end
-
-  public
-
-  # add a weak reference to the set
-  def add(obj)
-    return self if include? obj
-#        Symbol===obj || Fixnum===obj || nil==obj || true==obj || false==obj and 
-#          raise ArgumentError, "no immediates in weakrefset"
-        id=ref obj
-        case (o2=unref id) #test id for validity
-        when Fixnum; 
-          obj.equal? o2 or raise
-        when Symbol,true,false,nil;          id=obj #hopefully rare
-        else         
-          obj.equal? o2 or raise
+    # add a weak reference to the set
+    def add(obj)
+        Symbol===obj || Fixnum===obj || nil==obj || true==obj || false==obj and 
+          raise ArgumentError, "no immediates in weakrefset"
+        id=obj.object_id
+        case (o2=ObjectSpace._id2ref id) #test id for validity
+        when Symbol,Fixnum,true,false,nil:          id=obj #hopefully rare
+        else         obj.equal? o2 or raise
           ObjectSpace.define_finalizer(obj,method(:finalizer))
         end
         @ids[id] = true
         self
-  end
-  alias << add
-
-  # iterate over remaining valid objects in the set
-  def each
+    end
+    alias << add
+    # iterate over remaining valid objects in the set
+    def each
         @ids.each_key { |id|
           case id
-          when Integer
+          when Integer:
+            begin
+                o = ObjectSpace._id2ref(id)
+            rescue RangeError
+                next
+            end
             @ids.include?(id) or next
-            o = unref(id) or next
             #i don't know where the random symbols come from, but at least they're always symbols...
           else
             o=id
           end
-#          case o
-#            when Symbol,Fixnum,true,false,nil: warn "immediate value #{o.inspect} found in weakrefset"
-#            else 
-              yield(o) 
-#          end
+            case o
+              when Symbol,Fixnum,true,false,nil: warn "immediate value #{o.inspect} found in weakrefset"
+              else yield(o) 
+            end
         }
         self
-  end
+    end
     
-  def == other
-      size==other.size or return
+    def == other
+      size==other.size and
       each{|x|
         other.include? x or return
       }
-      true
-  end
-  alias eql? ==
-
-  def hash
-      to_a.hash
-  end
     
-  # clear the set (return self)
-  def clear
+    end
+    
+    # clear the set (return self)
+    def clear
         @ids = {}
         self
-  end
-
-  # merge some more objects into the set (return self)
-  def merge(enum)
+    end
+    # merge some more objects into the set (return self)
+    def merge(enum)
         enum.each { |obj| add(obj) }
         self
-  end
-
-  # replace the objects in the set (return self)
-  def replace(enum)
+    end
+    # replace the objects in the set (return self)
+    def replace(enum)
         clear
         merge(enum)
         self
-  end
-
-  # delete an object in the set (return self)
-  def delete(obj)
+    end
+    # delete an object in the set (return self)
+    def delete(obj)
         delete?(obj)
         self
-  end
-
-  # delete an object in the set (return self if obj was found, else nil if nothing deleted)
-  def delete?(obj)
-    x=include?(obj)
-    if x
-      fail unless  @ids.delete(ref( x ))||@ids.delete(x)
-      return self
     end
-  end
-
-  # Deletes every element of the set for which block evaluates to
-  # true, and returns self.
-  def delete_if
-    to_a.each { |o| delete(o) if yield(o) }
-    self
-  end
-
-  # is this object in the set?
-  def include?(obj)
+    # delete an object in the set (return self or nil if nothing deleted)
+    def delete?(obj)
+        x=include?(obj) and @ids.delete(x.__id__)||@ids.delete(x) and self
+    end
+    # is this object in the set?
+    def include?(obj)
         find{|x| obj==x}
-  end
-  alias member? include?
+    end
+    alias member? include?
 
-
-  # return a human-readable string showing the set
+    # return a human-readable string showing the set
   def inspect
     #unless $weakrefset_verbose_inspect 
     #  return sprintf('#<%s:0x%x {...}>', self.class.name, object_id)
@@ -200,32 +149,20 @@ if false      #this is broken; emits yaml for a hash.
   end
 end
   
-  # remove some objects from the set (return self)
-  def subtract(enum)
+    # remove some objects from the set (return self)
+    def subtract(enum)
         enum.each { |obj| delete(obj) }
         self
-  end
-
-  # Returns a new set containing elements exclusive between the set
-  # and the given enumerable object.  (set ^ enum) is equivalent to
-  # ((set | enum) - (set & enum)).
-  def ^(enum)
-    enum.is_a?(Enumerable) or raise ArgumentError, "value must be enumerable"
-    n = self.class.new(enum)
-    each { |o| if n.include?(o) then n.delete(o) else n.add(o) end }
-    n
-  end
-
-  # any objects in the set still valid?
-  def empty?
+    end
+    # any objects in the set still valid?
+    def empty?
         @ids.empty?
-  end
-
-  # number of objects in the set still valid
-  def size
+    end
+    # number of objects in the set still valid
+    def size
         @ids.size
-  end
-  alias length size
+    end
+    alias length size
 end
 
 # :stopdoc:
@@ -248,23 +185,18 @@ if __FILE__==$0
 #    srand(2389547343)
     classes=[]
     ObjectSpace.each_object(Class){|ob| classes<<ob}
-    maybe_Data=Data if defined? Data #whatever Data is supposed to be, idunno.....
-    classes-=[Symbol,Integer,NilClass,FalseClass,TrueClass,Numeric,maybe_Data,Bignum,Fixnum,
+    classes-=[Symbol,Integer,NilClass,FalseClass,TrueClass,Numeric,Data,Bignum,Fixnum,
               Float,Struct,Method,UnboundMethod,Proc,Thread,Binding,Continuation]
     classes.delete_if{|k| begin k.allocate; rescue; true else false end}
     def shuffle!(arr)
       arr.sort_by{rand}    
     end
-
-    iterations=ARGV[0]||100_000
-    iterations=iterations.to_i
-
     times = Benchmark.measure {
-    iterations.times { |i|
+    100000.times { |i|
 #        print(weakrefs.size>70?"|":((60..70)===weakrefs.size ? ":" : (weakrefs.size>50?',':'.')))
         print "." if 0==i%128
         #obj = (k=classes[rand(classes.size)]).allocate  
-        obj = (k=MyString).new "X#{rand(i+1)}_#{i}"
+        obj = (k=MyString).new "X" #*rand(i+1)
 #        obj= (k=Object).new
 #        obj= (k=MyObject).new
         #obj= (k=MyClass).new
@@ -272,8 +204,26 @@ if __FILE__==$0
         weakrefs=weakrefsets[rand(weakrefsets.size)]
         obj.instance_eval{@owner=weakrefs}
         obj.instance_eval{@owner}.equal? weakrefs or raise
+        weakrefs.each { |o|
+ #           k==o.class or raise "set contained a #{o.class}. i=#{i}. size=#{weakrefs.size}"
+            (o2=o.instance_eval{@owner})==weakrefs or 
+               raise "expected owner #{weakrefs.map{|w| w.__id__}.inspect}, "+
+              "got #{o2.inspect}, item #{o}, id #{o.__id__}, obj #{obj.__id__}"
+        }
         weakrefs << obj
+        weakrefs.each { |o|
+ #           k==o.class or raise "set contained a #{o.class}. i=#{i}. size=#{weakrefs.size}"
+            (o2=o.instance_eval{@owner})==weakrefs or 
+               raise "expected owner #{weakrefs.map{|w| w.__id__}.inspect}, "+
+              "got #{o2.inspect}, item #{o}, id #{o.__id__}, obj #{obj.__id__}"
+        }
         weakrefs.include?(obj) or raise
+        weakrefs.each { |o|
+ #           k==o.class or raise "set contained a #{o.class}. i=#{i}. size=#{weakrefs.size}"
+            (o2=o.instance_eval{@owner})==weakrefs or 
+               raise "expected owner #{weakrefs.map{|w| w.__id__}.inspect}, "+
+              "got #{o2.inspect}, item #{o}, id #{o.__id__}, obj #{obj.__id__}"
+        }
         weakrefs.include?(obj) or raise
         if rand(10).zero?
             weakrefs.delete?(obj) or raise
@@ -297,28 +247,6 @@ if __FILE__==$0
     weakrefs.empty? or raise
     }
     puts(times)
-
-
-
-
-   class NotReallyWeakRefSet<WeakRefSet
-     #ensure the items referenced never get gc'd
-     class<<self
-       @@keeprefs=[]
-       def new(*args)
-         @@keeprefs.concat args
-         super
-       end
-     end
-   end
-
-   #"now I should reuse Set's original tests, but replacing Set with NotReallyWeakRefSet"
-   origset=$:.find{|dir| File.exist? dir+"/set.rb"} +"/set.rb"
-   testcode=File.read(origset).split("\n__END__\n",2).last
-   testcode=testcode.split("\nclass TC_SortedSet",2).first #hack off some unwanted tests
-   testcode.gsub! 'Set', 'NotReallyWeakRefSet'
-
-   eval testcode
 end
 
 # :stopdoc:
