@@ -147,7 +147,7 @@ end
   def delete?(obj)
     x=include?(obj)
     if x
-      fail unless  @ids.delete(ref( x ))||@ids.delete(x)
+      fail unless  @ids.delete(ref( obj ))||@ids.delete(obj)
       return self
     end
   end
