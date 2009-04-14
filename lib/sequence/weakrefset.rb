@@ -161,7 +161,7 @@ end
 
   # is this object in the set?
   def include?(obj)
-        find{|x| obj==x}
+    any?{|x| obj==x}
   end
   alias member? include?
 
