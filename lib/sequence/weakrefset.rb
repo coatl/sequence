@@ -21,9 +21,9 @@ class WeakRefSet<Set
     replace(items)
   end
   class<<self
-      def [] *items
-        new(items)
-      end
+    def [] *items
+      new(items)
+    end
   end
 
   private
@@ -218,12 +218,12 @@ end
 
   # any objects in the set still valid?
   def empty?
-        @ids.empty?
+    @ids.empty?
   end
 
   # number of objects in the set still valid
   def size
-        @ids.size
+    @ids.size
   end
   alias length size
 end
@@ -287,14 +287,14 @@ if __FILE__==$0
         end
         arr.each{|o| o.instance_eval{@owner}.include? o or raise }
         #rand(100).zero? and          GC.start
-    }
+      }
     }
     puts
     GC.start
     weakrefsets.each{|weakrefs|
-    weakrefs.clear
-    weakrefs.size.zero? or raise
-    weakrefs.empty? or raise
+      weakrefs.clear
+      weakrefs.size.zero? or raise
+      weakrefs.empty? or raise
     }
     puts(times)
 
