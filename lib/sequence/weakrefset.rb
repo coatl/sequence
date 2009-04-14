@@ -17,7 +17,10 @@ class WeakRefSet<Set
   include Enumerable
   # create a new WeakRefSet from an optional Enumerable (of objects)
   # which is optionally processed through a block
-  def initialize(items) # :yield: obj
+  def initialize(items=nil,&block) # :yield: obj
+    items=[] if items.nil?
+    raise ArgumentError unless items.respond_to? :each
+    items=items.map(&block) if block
     replace(items)
   end
   class<<self
