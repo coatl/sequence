@@ -23,6 +23,7 @@ class WeakRefSet<Set
     items=items.map(&block) if block
     replace(items)
   end
+  alias initialize_copy initialize
   class<<self
     def [] *items
       new(items)
