@@ -106,11 +106,9 @@ end
   end
 
   def == other
-      size==other.size or return
-      each{|x|
-        other.include? x or return
-      }
-      true
+    return true if self.equal? other
+    other.is_a? Set and other.size==self.size and
+      all?{|x| other.include?(x) }
   end
   alias eql? ==
 
