@@ -113,7 +113,9 @@ end
   alias eql? ==
 
   def hash
-      to_a.hash
+    result=0
+    each{|x| result^=x.hash }
+    result
   end
     
   # clear the set (return self)
