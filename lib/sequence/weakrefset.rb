@@ -100,7 +100,11 @@ end
         }
         self
   end
-    
+
+  def to_a
+    map{|x| x}
+  end
+
   def == other
       size==other.size or return
       each{|x|
