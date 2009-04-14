@@ -174,12 +174,12 @@ end
     ids = (Thread.current[:__weakrefset__inspect_key__] ||= [])
 
     if ids.include?(object_id)
-      return sprintf('#<%s {...}>', self.class.name)
+      return sprintf('#<%s: {...}>', self.class.name)
     end
 
     begin
       ids << object_id
-      return sprintf('#<%s {%s}>', self.class.name, to_a.inspect[1..-2])
+      return sprintf('#<%s: {%s}>', self.class.name, to_a.inspect[1..-2])
     ensure
       ids.pop
       Thread.current[:__weakrefset__inspect_key__].empty? and
