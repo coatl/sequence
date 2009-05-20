@@ -439,6 +439,7 @@ class Sequence
       instance_variables.empty?
     end
 
+=begin who needs it?
     # Compare +other+ (a Position or Integer) to the current position.  return +1
     # for the self is after, -1 for self being before, and 0 for it being at
     # same location, nil (or false) if other is not a position of self.
@@ -447,6 +448,8 @@ class Sequence
         elsif position?(other) then pos<=>other.pos
         end
     end
+=end
+
     #if passed an integer arg, return a new position decreased by len. if passed
     # a position, return the distance (number
     # or elements) from +other+ (a #position) to +self+.  This can be +, -, or 0.
