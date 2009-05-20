@@ -259,7 +259,7 @@ $Debug=true
         xk.instance_eval do
           define_method :a_seq do
             result=super()
-            result.maxmatchlen=6
+            result.maxmatchlen=10
             result
           end
         end
