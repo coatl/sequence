@@ -57,6 +57,7 @@ $Debug=true
         test_read 
         test_slice 
         test_slice_empty 
+        test_optional_capture
       ]
       MODIFYMETHODS=%w[
         test_insert 
