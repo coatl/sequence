@@ -2,7 +2,7 @@
 # Distributed under the terms of Ruby's license.
 require 'sequence'
 require 'sequence/indexed'
-reuqire 'sequence/functional'
+require 'sequence/functional'
 require 'set'
 
 
