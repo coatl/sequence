@@ -43,46 +43,6 @@ class Buffered < Sequence
     def new_data
         @input.new_data
     end
-=begin
-    protected
-    def _delete1after?
-        v0 = @buffer.delete1after?
-        v0.nil? && @input && (v0 = @input.read(1)) && (v0 = v0[0])
-        v0
-    end
-    def _delete1before?
-        v0 = @buffer.delete1before?
-        v0.nil? && @output_pos>0 && (@output_pos -= 1;v0 = @output.read(-1)) && (v0 = v0[0])
-        v0
-    end
-    def _insert1before(v)
-        if not position?
-            len = @buffer.move!(true)
-            if @output
-                value = @buffer.read(len,nil)
-                value << v
-                @output.write(value)
-            else
-                @buffer.read(len,nil) if len
-            end
-            @output_pos += (len||0)+1
-        else
-            @buffer.insert1before(v)
-        end
-        true
-    end
-    def _insert1after(v)
-        @buffer.insert1after(v)
-    end
-    public
-    def close
-        if @output
-            @buffer.move!(true)
-            value = @buffer.read!(false) and @output.write(value)
-        end
-        super
-    end
-=end 
     def _default_maxmatchlen; @buffer_size/2 end
 
     attr :pos
