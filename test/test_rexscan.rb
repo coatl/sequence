@@ -354,12 +354,12 @@ $Debug=true
        assert_equal nil, md[1]
        assert_equal "tough", md[2]
         
-       assert_equal md.begin(0), OFFSET
-       assert_equal md.end(0), OFFSET+10
-       assert_equal md.begin(1), nil
-       assert_equal md.end(1), nil
-       assert_equal md.begin(0), OFFSET+5
-       assert_equal md.end(0), OFFSET+10
+       assert_equal OFFSET, md.begin(0)
+       assert_equal OFFSET+10, md.end(0)
+       assert_equal nil, md.begin(1)
+       assert_equal nil, md.end(1)
+       assert_equal OFFSET+5, md.begin(2)
+       assert_equal OFFSET+10, md.end(2)
 
     end
 
