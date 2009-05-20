@@ -36,7 +36,7 @@ class IO < Sequence
 
   undef pos=, _pos=, position, position?, holding, holding?, holding!, readback, readback1
   undef readahead, readbehind, readahead1, readbehind1, write#, write1
-  undef goto, move, move!, subseq, reversed, <=>, +, -, succ, pred, begin, end
+  undef goto, move, move!, subseq, reversed, +, -, succ, pred, begin, end
   undef begin!, end!,  first, last, slice, [], modify, []=
 
 
