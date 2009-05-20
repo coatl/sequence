@@ -223,9 +223,13 @@ class Sequence
     begins=[]
     ends=[]
     matchdata.to_a.each_with_index{|substr,i| 
-      next unless substr
-      begins<<matchdata.begin(i)+pos_adjust
-      ends<<matchdata.end(i)+pos_adjust
+      if substr
+        begins<<matchdata.begin(i)+pos_adjust
+        ends<<matchdata.end(i)+pos_adjust
+      else
+        begins<<nil
+        ends<<nil
+      end
     }
     
     #..remove data at group indexes we added above
