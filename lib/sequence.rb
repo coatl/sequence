@@ -13,8 +13,6 @@ require 'assert'
 require 'sequence/version'
 require 'sequence/weakrefset'
 
-WeakRefSet=Set
-warn "warning: sequence uses Set instead of WeakRefSet; memory leak results"
 
 =begin todo
 
@@ -33,6 +31,8 @@ match/matchback
 
 class Sequence
 
+  WeakRefSet=::Set
+  warn "warning: sequence uses Set instead of WeakRefSet; memory leak results"
 
     include Comparable
     include Enumerable
@@ -403,8 +403,8 @@ class Sequence
     #  numeric positions and also be tested
     def position?(p)
       case p
-      when Integer: (-size..size)===p 
-      when Position: equal? p.data
+      when Integer; (-size..size)===p 
+      when Position; equal? p.data
       else equal? p
       end
     end

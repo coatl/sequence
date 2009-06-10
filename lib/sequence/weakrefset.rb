@@ -13,6 +13,7 @@ end
 # These references don't prevent garbage collection on these objects.  As these
 # objects are thrown away so does their entry in a WeakRefSet.  Immmediate
 # objects are not handled by this class (and wouldn't be useful).
+class Sequence
 class WeakRefSet<Set
   include Enumerable
   # create a new WeakRefSet from an optional Enumerable (of objects)
@@ -235,6 +236,7 @@ end
   end
   alias length size
 end
+end
 
 # :stopdoc:
 
@@ -249,7 +251,7 @@ if __FILE__==$0
     end
     class MyObject; end
     class MyClass < Module; end
-    weakrefsets = (1..10).map {WeakRefSet[]}
+    weakrefsets = (1..10).map {Sequence::WeakRefSet[]}
     $stdout.sync=true
     obj = nil
     arr=[]
@@ -309,7 +311,7 @@ if __FILE__==$0
 
 
 
-   class NotReallyWeakRefSet<WeakRefSet
+   class NotReallyWeakRefSet<Sequence::WeakRefSet
      #ensure the items referenced never get gc'd
      class<<self
        @@keeprefs=[]
