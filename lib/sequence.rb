@@ -31,8 +31,8 @@ match/matchback
 
 class Sequence
 
-  WeakRefSet=::Set
-  warn "warning: sequence uses Set instead of WeakRefSet; memory leak results"
+#  WeakRefSet=::Set
+#  warn "warning: sequence uses Set instead of WeakRefSet; memory leak results"
 
     include Comparable
     include Enumerable
