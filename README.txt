@@ -49,7 +49,7 @@ No unit tests at all for array-like sequences
 
 == INSTALL:
 
-* Just run: gem install sequence
+* Simply: gem install sequence
 
 == LICENSE:
 
