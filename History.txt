@@ -1,3 +1,11 @@
+=== 0.2.1 / 2009-01-07
+* 1 Minor Enhancement:
+  * WeakRefSet now conforms to Set's api and tests more closely.
+
+* 1 Bugfix:
+  * fixed errors in MatchData when matching against a Regexp with an 
+    optional capture that didn't capture anything .
+
 === 0.2.0 / 2008-08-28
 
 * 2 Major Enhancements:
