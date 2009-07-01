@@ -18,7 +18,7 @@ end
 
      _.author = "Caleb Clausen"
      _.email = "sequence-owner @at@ inforadical .dot. net"
-     _.url = "http://sequence.rubyforge.org/"
+     _.url = [ "http://sequence.rubyforge.org/", "http://rubyforge.org/projects/sequence"]
      _.summary = "A single api for reading and writing sequential data types."
      _.description = <<-END
 A unified wrapper api for accessing data in Strings, Arrays, Files, IOs, 
