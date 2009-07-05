@@ -21,7 +21,7 @@ lib/sequence/stringlike.rb
 lib/sequence/subseq.rb
 lib/sequence/usedata.rb
 lib/sequence/version.rb
-lib/weakrefset.rb
+lib/sequence/weakrefset.rb
 test/test.rb
 test/test_all.rb
 test/test_changes.rb
@@ -34,3 +34,4 @@ Manifest.txt
 README.txt
 COPYING
 GPL
+History.txt
