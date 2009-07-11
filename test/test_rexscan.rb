@@ -614,23 +614,23 @@ $Debug=true
     def verify_aftermatch_status(seq,pos,matches,starts,pre,post,eof)
       assert_equal pos, seq.pos
       assert       seq.last_match
-      i=nil
-      matches.each_with_index{|m,i| 
+      ii=nil
+      matches.each_with_index{|m,i| ii=i
         assert_equal m, seq.last_match[i]
       }
-      assert_equal nil, seq.last_match[i+1]
+      assert_equal nil, seq.last_match[ii+1]
       assert_equal matches.length, seq.last_match.length
       assert_equal matches, seq.last_match.to_a
-      starts.each_with_index{|start,i| 
+      starts.each_with_index{|start,i| ii=i
         assert_equal start, seq.last_match.begin(i)
         assert_equal start+matches[i].size, seq.last_match.end(i)
         
         assert_equal start, seq.last_match.offset(i).first
         assert_equal start+matches[i].size, seq.last_match.offset(i).last
       }
-      assert_equal nil, seq.last_match.begin(i+1)
-      assert_equal nil, seq.last_match.end(i+1)
-      assert_equal nil, seq.last_match.offset(i+1)
+      assert_equal nil, seq.last_match.begin(ii+1)
+      assert_equal nil, seq.last_match.end(ii+1)
+      assert_equal nil, seq.last_match.offset(ii+1)
       
       assert_equal pre, seq.last_match.pre_match[0..-1]
       assert_equal post, seq.last_match.post_match[0..-1]
