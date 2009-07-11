@@ -345,6 +345,7 @@ $Debug=true
 =end
  
     class Indexed
+      undef_method(*(MOVEPOSMETHODS+MODIFYMETHODS))
     def test_optional_capture
        seq=a_seq
        word=seq.scan /(more of )?that (tough)/
@@ -365,7 +366,6 @@ $Debug=true
 
 
     RANDOMIZED_METHODS=[:test_slice,:test_insert,:test_delete,:test_modify]
-    undef test_randomized_methods_some_more
     def test_randomized_methods_some_more n=50
       RANDOMIZED_METHODS.each{|m| n.times{send m}}  
     end
@@ -379,7 +379,6 @@ $Debug=true
     end
     
     
-      undef_method(*(MOVEPOSMETHODS+MODIFYMETHODS))
     def test_pos_munging
       (1..3).each{|n|
       seq=a_seq
