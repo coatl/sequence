@@ -47,7 +47,7 @@ class Sequence
       undef new #bye-bye
       def new(seq)
         case seq
-          when File,IO,Array,String,Enumerable:
+          when File,IO,Array,String,Enumerable
             seq.to_sequence
           else
             if seq.respond_to? :to_str
@@ -562,18 +562,18 @@ class Sequence
       assert !closed?
       size=self.size
       case r=args.first
-        when Range:
+        when Range
           asize==1 or raise ArgumentError 
           first,last=r.first,r.last
           first=_normalize_pos(first,size)
           last=_normalize_pos(last,size)
           len=last-first 
           r.exclude_end? or len+=1
-        when Integer: 
+        when Integer 
           asize<=2 or raise ArgumentError
           first=_normalize_pos(r,size)
           len=args[1] || (only1=1)
-        when nil:
+        when nil
           asize==0 or raise ArgumentError
           first=nil 
           len=only1=1

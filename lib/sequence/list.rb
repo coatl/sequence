@@ -76,9 +76,9 @@ class Sequence
         assert @start_pos[high]>pos
         mid=(low+high)/2
         case pos<=>@start_pos[mid]
-        when -1: high=mid
-        when  0: break low=mid
-        when  1: low=mid
+        when -1; high=mid
+        when  0; break low=mid
+        when  1; low=mid
         end
       end
       assert @start_pos[low]<=pos

@@ -17,8 +17,8 @@ class File < Sequence
     def initialize(file,mode="r")
 
       case file
-      when Integer:  file=IO.new(file,mode)
-      when String:   file=File.new(file,mode)
+      when Integer;  file=IO.new(file,mode)
+      when String;   file=File.new(file,mode)
       else #do nothing, file is of a right type (we hope) already
       end
       

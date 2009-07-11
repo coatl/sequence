@@ -174,7 +174,7 @@ class Sequence
     (frags=newrex.split( /((?:[^\\(\[\]$^]+|\\(?:[CM]-)*[^CMZA])*)/ )).each_index{|i|
       frag=frags[i]
       case frag
-        when "\\": 
+        when "\\"
           if !incclass and frags[i+1][0,1]==buffanchor
             frags[i+1].slice! 0
             frag='(?!)'
@@ -191,9 +191,9 @@ class Sequence
             frag="(?=\n)"
             rewritten=true
           end
-        when "(": incclass or frags[i+1][0]==?? or groupnum+=1
-        when "[": incclass=true #ignore stuff til ]
-        when "]": incclass=false #stop ignoring stuff
+        when "("; incclass or frags[i+1][0]==?? or groupnum+=1
+        when "["; incclass=true #ignore stuff til ]
+        when "]"; incclass=false #stop ignoring stuff
       end
       result<<frag
     }
@@ -302,12 +302,12 @@ class Sequence
 
     def scan(pat)
       holding? {case pat
-        when Integer: 
+        when Integer 
           pat==read1 and pat.chr
-        #when SetOfChar: ...
-        when String:
+        #when SetOfChar; ...
+        when String
           pat==read(pat.size) and pat
-        when Regexp: 
+        when Regexp 
           if m=match(pat,true)
             goto m.end(0) 
             m.to_s
@@ -318,12 +318,12 @@ class Sequence
     
     def scanback(pat)
       holding? {case pat
-        when Integer: 
+        when Integer 
           pat==readback1 and pat.chr
-        #when SetOfChar: ...
-        when String:
+        #when SetOfChar; ...
+        when String
           pat==readback(pat.size) and pat
-        when Regexp: 
+        when Regexp 
           if m=matchback(pat,true) 
             goto m.begin(0) 
             m.to_s
@@ -335,14 +335,14 @@ class Sequence
     def scan_until(pat)
       at=index( pat,pos) or return
       newpos=case pat
-        when Regexp: 
+        when Regexp 
           m=last_match
           s=slice(pos...m.begin(0))
           m.set_pre_match_body{s}
           m.end(0)
-        when String: at+pat.size
-        when Integer: at+1
-        #when SetOfChar: huh
+        when String; at+pat.size
+        when Integer; at+1
+        #when SetOfChar; huh
         else raise ArgumentError
       end
       return( read newpos-pos)
@@ -364,7 +364,7 @@ class Sequence
             end
             nil
           }
-        #elsif SetOfChar===pat: ...
+        #elsif SetOfChar===pat; ...
         else #string or integer
           i=index(pat,pos)
           result=read(i-pos)<<pat
@@ -395,7 +395,7 @@ class Sequence
           m=matchback(pat,false) or break
           goto= m.begin(0)
           m.to_s+m.post_match
-        #elsif SetOfChar===pat: ...
+        #elsif SetOfChar===pat; ...
         else #string or integer
           i=rindex(pat,pos)
           result=readback(pos-i-pat.size)<<pat

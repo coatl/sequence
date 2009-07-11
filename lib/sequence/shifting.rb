@@ -98,8 +98,8 @@ public
            diff=-diff
            @seq[x,diff] rescue
              case data_class
-             when ::Array:  [nil]
-             when ::String: "\0"
+             when ::Array;  [nil]
+             when ::String; "\0"
              else fail
              end*diff
         
@@ -116,8 +116,8 @@ public
        @data.prepend((
          @seq[x...offset] rescue
          case data_class
-         when ::Array:  [nil]
-         when ::String: "\0"
+         when ::Array;  [nil]
+         when ::String; "\0"
          else fail
          end*(offset-x)
        ))
