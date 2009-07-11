@@ -251,7 +251,7 @@ $Debug=true
       undef_method(*(MOVEPOSMETHODS+MODIFYMETHODS))
     end
     
-     module SmallScanBuffered
+    module SmallScanBuffered
       SequenceTests.constants.each{|k|
         xk= SequenceTests.const_get(k)
         next unless (xk.is_a? Class and xk<=::SequenceTests::Indexed)
@@ -685,7 +685,7 @@ $Debug=true
       }
     end
 
-     def test_scanning
+    def test_scanning
   
       assert_equal "that ", a_seq.readahead(5)
 

@@ -70,7 +70,7 @@ class Position < UseData # :nodoc:
    def close
         @data._delete_position(self)
         super
-    end
+   end
 =begin ***
     protected
     def _deletion(pos,len=1,reverse=false,dummy=nil)
