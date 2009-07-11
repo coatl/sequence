@@ -91,8 +91,7 @@ class Sequence
       result=@list[idx][pos-@start_pos[idx],len] || new_data
       len-=result.size
       assert len>=0 
-      i=nil
-      (idx+1).upto(@list.size-1){|i| 
+      (idx+1).upto(@list.size-1){|i|
          break(result+=@list[i][0,len]) if len<@list[i].size          
          result+=@list[i].all_data
          len-=@list[i].size
