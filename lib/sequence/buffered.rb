@@ -45,8 +45,6 @@ class Buffered < Sequence
     end
     def _default_maxmatchlen; @buffer_size/2 end
 
-    attr :pos
-    
     def _pos=(pos)
       if pos<@buffer_pos
         @pos=@input.pos=pos  #could raise exception, if @input doesn't support #pos=
