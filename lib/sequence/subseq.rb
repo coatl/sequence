@@ -50,7 +50,7 @@ class Sequence
 
     def readback(len)
       result=readbehind(len)
-      move( -result.size)
+      move( -result.size )
       result
     end
 
