@@ -6,6 +6,7 @@ require 'sequence/usedata'
 class Sequence
   class SubSeq < Sequence
     def initialize(seq, first,len)
+      assert first
       first+len-1>=seq.size and len=seq.size-first
       @data=seq
       @pos=0
@@ -14,9 +15,10 @@ class Sequence
 
       #ask for notifications on the parent seq...
       @data.on_change_notify self
+      assert @first
+      #p [:init,__id__]
     end
-    
-   
+
     def change_notification data,first,oldsize,newsize
       assert @data==data 
       old_first=@first
@@ -24,6 +26,8 @@ class Sequence
       @pos=(_adjust_pos_on_change @first+@pos,first,oldsize,newsize)-@first
       @size=(_adjust_pos_on_change @first+@size,first,oldsize,newsize)-@first
       @first=_adjust_pos_on_change @first,first,oldsize,newsize
+      assert @first
+      #p [:cn, __id__]
       
       notify_change(self, first-@first, oldsize, newsize)
     end
@@ -69,6 +73,7 @@ class Sequence
     attr :data
 
     def subseq *args
+      #p [:subseq, __id__]
       first,len,only1=_parse_slice_args( *args)
       SubSeq.new(@data,@first+first,len)
     end
