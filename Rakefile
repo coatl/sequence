@@ -2,14 +2,16 @@
 # Distributed under the terms of Ruby's license.
 require 'rubygems'
 require 'hoe'
-require 'lib/sequence/version.rb'
- 
+require './lib/sequence/version.rb'
+require 'test/unit'
  
  if $*==["test"]
+  gem 'test-unit'
+  require 'test/unit'
   #hack to get 'rake test' to stay in one process
   #which keeps netbeans happy
   $:<<"lib"
-  require "test/test_all.rb"
+  require "./test/test_all.rb"
   Test::Unit::AutoRunner.run
   exit
 end
