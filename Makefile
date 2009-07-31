@@ -18,7 +18,7 @@ tar:
 email: README.txt History.txt
 	ruby -e ' \
   require "./lib/sequence/version.rb"; \
-  pust "Subject: [ANN] Sequence #{Sequence::VERSION} Released
+  puts "Subject: [ANN] Sequence #{Sequence::VERSION} Released"; \
   puts "Sequence version #{Sequence::VERSION} has been released!"; \
   puts open("README.txt").read[/^==+ ?description.*?\n\n..*?\n\n/im]; \
   puts open("History.txt").read[/\A===.*?(?====)/m]; \
