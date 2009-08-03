@@ -2,7 +2,7 @@
 # Distributed under the terms of Ruby's license.
 $VERBOSE=1
 require 'test/unit'
-
+require 'socket'
 
       require 'sequence'
       require 'sequence/indexed'
@@ -240,6 +240,18 @@ $Debug=true
     end
     
     class IO < Indexed
+      def socketpair
+        BasicSocket.do_not_reverse_lookup=true
+        server_sock=TCPServer.new('127.0.0.1', 0xABCD)
+        client=TCPSocket.new('127.0.0.1', 0xABCD)
+        server=nil
+        begin
+          server.close if server
+          server=server_sock.accept
+        end until server.peeraddr==client.addr
+        return client,server
+      end
+
       def a_seq
         r,w=::IO.pipe
         r=Sequence::IO[r]
