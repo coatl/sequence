@@ -85,31 +85,31 @@ end
 oldVERBOSE=$VERBOSE
 $VERBOSE=nil
 eval <<'END'
-      _=@cu.group_anchors(/([\A[]|^asdf(df)s)/,true)
-      assert_equal "[/(?-mix:([\\A[]|(^)asdf(df)s))/, [2]]", _.inspect
+      _=@cu.group_anchors(/([\A[~]|^asdf(df)s)/,true)
+      assert_equal "[/(?-mix:([\\A[~]|(^)asdf(df)s))/, [2]]", _.inspect
 
-      _=@cu.group_anchors(/(\A|[z^[]asdf(df)s)/,nil)
-      assert_equal "[/(\\A|[z^[]asdf(df)s)/, []]", _.inspect
+      _=@cu.group_anchors(/(\A|[z^[~]asdf(df)s)/,nil)
+      assert_equal "[/(\\A|[z^[~]asdf(df)s)/, []]", _.inspect
 
-      _=@cu.group_anchors(/(\A|[z^[]asdf(df)s)/,true)
-      assert_equal "[/(?-mix:((?!)|[z^[]asdf(df)s))/, []]", _.inspect
+      _=@cu.group_anchors(/(\A|[z^[~]asdf(df)s)/,true)
+      assert_equal "[/(?-mix:((?!)|[z^[~]asdf(df)s))/, []]", _.inspect
 
-      _=@cu.group_anchors(/([\A[]|^asdf(df)s)/,nil)
-      assert_equal "[/([\\A[]|^asdf(df)s)/, []]", _.inspect
+      _=@cu.group_anchors(/([\A[~]|^asdf(df)s)/,nil)
+      assert_equal "[/([\\A[~]|^asdf(df)s)/, []]", _.inspect
 END
 $VERBOSE=oldVERBOSE
 
-      _=@cu.group_anchors(/([\A\[]|^asdf(df)s)/,true)
-      assert_equal "[/(?-mix:([\\A\\[]|(^)asdf(df)s))/, [2]]", _.inspect
+      _=@cu.group_anchors(/([\A\[~]|^asdf(df)s)/,true)
+      assert_equal "[/(?-mix:([\\A\\[~]|(^)asdf(df)s))/, [2]]", _.inspect
 
-      _=@cu.group_anchors(/(\A|[z^\[]asdf(df)s)/,nil)
-      assert_equal "[/(\\A|[z^\\[]asdf(df)s)/, []]", _.inspect
+      _=@cu.group_anchors(/(\A|[z^\[~]asdf(df)s)/,nil)
+      assert_equal "[/(\\A|[z^\\[~]asdf(df)s)/, []]", _.inspect
 
-      _=@cu.group_anchors(/(\A|[z^\[]asdf(df)s)/,true)
-      assert_equal "[/(?-mix:((?!)|[z^\\[]asdf(df)s))/, []]", _.inspect
+      _=@cu.group_anchors(/(\A|[z^\[~]asdf(df)s)/,true)
+      assert_equal "[/(?-mix:((?!)|[z^\\[~]asdf(df)s))/, []]", _.inspect
 
-      _=@cu.group_anchors(/([\A\[]|^asdf(df)s)/,nil)
-      assert_equal "[/([\\A\\[]|^asdf(df)s)/, []]", _.inspect
+      _=@cu.group_anchors(/([\A\[~]|^asdf(df)s)/,nil)
+      assert_equal "[/([\\A\\[~]|^asdf(df)s)/, []]", _.inspect
 
 
       _=@cu.group_anchors(/([\A(]|^asdf(df)s)/,true)
