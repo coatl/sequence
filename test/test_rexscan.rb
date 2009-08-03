@@ -143,6 +143,7 @@ $Debug=true
         @@seq and @@seq.data.close(true)    
 
         tf=::Tempfile.new("test_seq#@@count"); @@count+=1
+        tf.binmode
        
         tf.write DATA
 
