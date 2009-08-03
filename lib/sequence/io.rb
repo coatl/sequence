@@ -12,7 +12,8 @@ class Sequence
 #At the moment, this even includes #scan and friends, tho I will try to make those work somewhat.
 #Also note that this is one of the few Sequence classes that might return less that the amount asked
 #for in a read, even if not at the end of file.
-#Due to use of nonblocking io, this might not work on windows.
+#Due to use of nonblocking io, this only works on windows when wrapping a socket, not a named pipe,
+#anonymous pipe, or device.
 #The value of #size in this sequence continually increases over its lifetime, and it isn't possible to 
 #know the final value beforehand. Likewise, #eof? may return false even tho it's destined to return
 #true at the same position. This is because the 'other end' may not have closed the IO, even if there's
@@ -25,10 +26,6 @@ class IO < Sequence
   def initialize(io)
     @io=io
     @pos=0
-    
-    @io.fcntl(::Fcntl::F_SETFL, ::Fcntl::O_NONBLOCK)
-    #I gather this won't work on windows....
-    
     @fragment=''
   end
   
@@ -42,14 +39,14 @@ class IO < Sequence
 
   def size
     #refill fragment if needed
-    @fragment=@io.sysread(4096) if @fragment.empty?
+    @fragment=readchunk(4096) if @fragment.empty?
 
     return @pos+@fragment.size 
   end
 
   def more_data?
     #refill fragment if needed
-    @fragment=@io.sysread(4096) if @fragment.empty?
+    @fragment=readchunk(4096) if @fragment.empty?
     
     return !eof 
   end
@@ -59,6 +56,14 @@ class IO < Sequence
       @io.eof?  
   end
   
+  def readchunk len
+    @fragment=@io.read_nonblock(len)
+  rescue IOError, EOFError
+    raise
+  rescue Exception
+    @fragment=''
+  end
+
   def read len
     if len<= @fragment.size
       @pos+=len
@@ -71,7 +76,7 @@ class IO < Sequence
       rem=len%4096
       rem.nonzero? and readlen+=4096-rem
       
-      @fragment=@io.sysread(readlen) 
+      @fragment=readchunk(readlen) 
       result+=@fragment.slice!(0,len)
       @pos+=result.size
       result
@@ -79,7 +84,11 @@ class IO < Sequence
   end
   
   def match pat
-    @fragment.size>=scanbuflen or @fragment<<@io.sysread(4096)
+    unless @fragment.size>=scanbuflen 
+      frag=@fragment
+      frag<<readchunk([4096,scanbuflen].max)
+    end
+    @fragment=frag
     result=@fragment.match(pat)
     result if result.begin(0).zero?
   end
@@ -93,8 +102,8 @@ class IO < Sequence
     else
       len=newpos-(@pos+@fragment.size)
       len > 10*4096 and raise ArgumentError
+      tossit=readchunk(len)
       @fragment=''
-      tossit=@io.sysread(len)
       @pos=newpos-(len-tossit.size)
     end
   end
