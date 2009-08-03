@@ -253,7 +253,8 @@ $Debug=true
       end
 
       def a_seq
-        r,w=::IO.pipe
+        r,w=socketpair #was: ::IO.pipe  #but windows doesn't allow nonblocking pipes
+        @closeit=w
         r=Sequence::IO[r]
         w.write DATA
         r.read(OFFSET)== DATA[0,OFFSET] or raise "predata mismatch inside pipe"
