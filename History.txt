@@ -1,3 +1,9 @@
+=== 0.2.2 / 2009-08-05
+* 3 Minor Enhancements:
+  * mostly works in ruby 1.9, but still some bizarre unit test failures
+  * should now work in windows without a problem
+  * replaced (no longer working) Hoe/Rakefile with Makefile/gemspec
+
 === 0.2.1 / 2009-01-07
 * 1 Minor Enhancement:
   * WeakRefSet now conforms to Set's api and tests more closely.
