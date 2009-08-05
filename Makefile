@@ -17,9 +17,16 @@ tar:
 
 email: README.txt History.txt
 	ruby -e ' \
-  require "./lib/sequence/version.rb"; \
-  puts "Subject: [ANN] Sequence #{Sequence::VERSION} Released"; \
-  puts "Sequence version #{Sequence::VERSION} has been released!"; \
-  puts open("README.txt").read[/^==+ ?description.*?\n\n..*?\n\n/im]; \
-  puts open("History.txt").read[/\A===.*?(?====)/m]; \
+  require "rubygems"; \
+  load "./sequence.gemspec"; \
+  spec= Gem::Specification.list.find{|x| x.name=="sequence"}; \
+  puts "Subject: [ANN] Sequence #{spec.version} Released"; \
+  puts "\n"; \
+  puts "Sequence version #{spec.version} has been released!"; \
+  puts "\n"; \
+  Array(spec.homepage).each{|url| puts " * #{url}" }; \
+  puts "\n"; \
+  puts Sequence::Description; \
+  puts "\nChanges:\n"; \
+  puts Sequence::Latest_changes; \
 '
