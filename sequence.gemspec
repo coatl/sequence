@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{sequence}
   s.rubygems_version = %q{1.3.0}
+  s.test_files = %w[test/test_all.rb]
   s.summary = "A single api for reading and writing sequential data types."
   s.description = Sequence::Description
 
