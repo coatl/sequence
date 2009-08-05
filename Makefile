@@ -20,13 +20,13 @@ email: README.txt History.txt
   require "rubygems"; \
   load "./sequence.gemspec"; \
   spec= Gem::Specification.list.find{|x| x.name=="sequence"}; \
-  puts "Subject: [ANN] Sequence #{spec.version} Released"; \
-  puts "\n"; \
-  puts "Sequence version #{spec.version} has been released!"; \
-  puts "\n"; \
-  Array(spec.homepage).each{|url| puts " * #{url}" }; \
-  puts "\n"; \
-  puts Sequence::Description; \
-  puts "\nChanges:\n"; \
-  puts Sequence::Latest_changes; \
+  puts "\
+Subject: [ANN] Sequence #{spec.version} Released \
+\n\nSequence version #{spec.version} has been released! \n\n\
+#{Array(spec.homepage).map{|url| " * #{url}\n" }} \
+ \n\
+#{Sequence::Description} \
+\n\nChanges:\n\n \
+#{Sequence::Latest_changes} \
+"\
 '
