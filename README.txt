@@ -1,6 +1,7 @@
 = sequence
 
 * http://sequence.rubyforge.org/
+* http://github.com/coatl/sequence
 
 == DESCRIPTION:
 Sequence provides a unified api for access to sequential data types, like
