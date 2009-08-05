@@ -114,9 +114,17 @@ end
   alias eql? ==
 
   def hash
+    hashing=Thread.current[:$WeakRefSet_hashing]||=[]
+    return 0 if hashing.include? self
+    hashing<<self
+    
     result=0
     each{|x| result^=x.hash }
     result
+
+  ensure
+    hashing.delete(self)
+    Thread.current[:$WeakRefSet_hashing]=nil if hashing.empty?
   end
     
   # clear the set (return self)
