@@ -10,7 +10,7 @@ docs:
 pkg: gem tar
 
 gem:
-	huh
+	gem build sequence.gemspec
 
 tar:
 	tar czf sequence-`ruby -r ./lib/sequence/version.rb -e 'puts Sequence::VERSION'`.tar.gz `git ls-files`
