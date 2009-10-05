@@ -1,3 +1,12 @@
+name=Sequence
+lname=sequence
+gemname=sequence
+
+#everything after this line is generic
+
+version=$(shell ruby -r ./lib/$(lname)/version.rb -e "puts $(name)::VERSION")
+filelist=$(shell git ls-files)
+
 .PHONY: all test docs gem tar pkg email
 all: test
 
@@ -10,23 +19,23 @@ docs:
 pkg: gem tar
 
 gem:
-	gem build sequence.gemspec
+	gem build $(lname).gemspec
 
 tar:
-	tar czf sequence-`ruby -r ./lib/sequence/version.rb -e 'puts Sequence::VERSION'`.tar.gz `git ls-files`
+	tar czf $(gemname)-$(version).tar.gz $(filelist)
 
 email: README.txt History.txt
 	ruby -e ' \
   require "rubygems"; \
-  load "./sequence.gemspec"; \
-  spec= Gem::Specification.list.find{|x| x.name=="sequence"}; \
+  load "./$(lname).gemspec"; \
+  spec= Gem::Specification.list.find{|x| x.name=="$(gemname)"}; \
   puts "\
-Subject: [ANN] Sequence #{spec.version} Released \
-\n\nSequence version #{spec.version} has been released! \n\n\
+Subject: [ANN] $(name) #{spec.version} Released \
+\n\n$(name) version #{spec.version} has been released! \n\n\
 #{Array(spec.homepage).map{|url| " * #{url}\n" }} \
  \n\
-#{Sequence::Description} \
+#{$(name)::Description} \
 \n\nChanges:\n\n \
-#{Sequence::Latest_changes} \
+#{$(name)::Latest_changes} \
 "\
 '
