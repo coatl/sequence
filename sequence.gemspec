@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-require './lib/sequence/version'
+require "#{File.dirname(__FILE__)}/lib/sequence/version"
 Sequence::Description=open("README.txt"){|f| f.read[/^==+ ?description[^\n]*?\n *\n?(.*?\n *\n.*?)\n *\n/im,1] }
 Sequence::Latest_changes="###"+open("History.txt"){|f| f.read[/\A===(.*?)(?====)/m,1] }
 
