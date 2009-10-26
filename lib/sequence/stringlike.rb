@@ -101,8 +101,11 @@ class Sequence
       matchdata=match_fast(newrex,true,len)
       #fail if any  ^ or \A matched at begin of buffer, 
       #but buffer isn't begin of file
-      return if !matchdata or #not actually a match
+      if !matchdata or #not actually a match
         addedgroups.find{|i| matchdata.end(i)==0 } && !nearbegin
+          self.last_match=Thread.current[:last_match]=nil
+          return
+      end
 
       matchpos=pos-len
       matchpos>=0 or matchpos=0
@@ -129,9 +132,12 @@ class Sequence
       newrex=nearend(len)? rex : group_anchors(rex,false,false).first
 
       #do the match against what input we have
-      matchdata=match_fast(newrex,false,len) or return
+      matchdata=match_fast(newrex,false,len)
 
-      anchored and matchdata.begin(0).nonzero? and return
+      if !matchdata or anchored && matchdata.begin(0).nonzero?
+        self.last_match=Thread.current[:last_match]=nil
+        return
+      end
       posi=position;posi.move matchdata.end(0)
       result=fixup_match_result(matchdata,[],pos,:post) { posi.subseq(posi.pos..-1) }
           #note: post_match is a SubSeq
