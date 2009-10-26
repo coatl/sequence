@@ -432,7 +432,7 @@ class Sequence
               range=0...m.begin(0)
               pre=subseq(range)
               m.set_pre_match_body { pre } 
-              self.last_match=m
+              self.last_match=Thread.current[:last_match]=m
               return m.begin(0) #return match and what preceded it
             end
             posi.move until_step_len
@@ -465,7 +465,7 @@ class Sequence
               range=m.end(0)+1..-1
               post=subseq(range)
               m.set_post_match_body { post } 
-              self.last_match=m
+              self.last_match=Thread.current[:last_match]=m
               posi.close
               return m.begin(0) #return match and what preceded it
             end
