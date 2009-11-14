@@ -64,7 +64,7 @@ class Sequence
           end
           blocks<<block
        end
-       return blocks.to_s
+       return blocks.join
     end
    
 
