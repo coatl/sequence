@@ -1,3 +1,11 @@
+=== 0.2.3 / 2009-11-15
+* 3 Minor Bugfixes:
+  * use Array#join instead of Array#to_s for 1.9 compatibility
+  * set thread's last_match in #index and #rindex
+  * set last_match to nil on #match or #matchback failure
+* 1 Minor Enhancements:
+  * reworked build scripts slightly
+
 === 0.2.2 / 2009-08-05
 * 3 Minor Enhancements:
   * mostly works in ruby 1.9, but still some bizarre unit test failures
