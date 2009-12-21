@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.files = `git ls-files`.split
   s.has_rdoc = true
   s.homepage = %{http://github.com/coatl/sequence}
-  s.rdoc_options = %w[--inline-source --main README.txt]
+  s.rdoc_options = %w[--main README.txt]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{sequence}
   s.rubygems_version = %q{1.3.0}
