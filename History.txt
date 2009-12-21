@@ -1,4 +1,4 @@
-=== 0.2.3 / 2009-11-15
+=== 0.2.3 / 21dec2009
 * 3 Minor Bugfixes:
   * use Array#join instead of Array#to_s for 1.9 compatibility
   * set thread's last_match in #index and #rindex
@@ -6,13 +6,13 @@
 * 1 Minor Enhancements:
   * reworked build scripts slightly
 
-=== 0.2.2 / 2009-08-05
+=== 0.2.2 / 5aug2009
 * 3 Minor Enhancements:
   * mostly works in ruby 1.9, but still some bizarre unit test failures
   * should now work in windows without a problem
   * replaced (no longer working) Hoe/Rakefile with Makefile/gemspec
 
-=== 0.2.1 / 2009-01-07
+=== 0.2.1 / 7jan2009
 * 1 Minor Enhancement:
   * WeakRefSet now conforms to Set's api and tests more closely.
 
@@ -20,7 +20,7 @@
   * fixed errors in MatchData when matching against a Regexp with an 
     optional capture that didn't capture anything .
 
-=== 0.2.0 / 2008-08-28
+=== 0.2.0 / 28aug2008
 
 * 2 Major Enhancements:
   * all tests now pass
@@ -32,7 +32,7 @@
   * more List test data created by wrapping existing data in List(s)
   * enabled some tests which had been failing
 
-=== 0.1.0 / 2006-10-05
+=== 0.1.0 / 5oct2006
 
 * 1 major enhancement
 
