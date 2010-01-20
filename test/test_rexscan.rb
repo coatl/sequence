@@ -176,19 +176,9 @@ $Debug=true
 
     end
 
-    class ListMaxxed < Indexed
-      def a_seq
-      
-        seq = Sequence::List.new(DATA.scan(/./m).map{|str| str.to_sequence})
-        seq.pos=OFFSET
-        seq
-      end
-      def test__lookup_idx
-        seq=a_seq
-        (0...DATA.size).map{|i|
-          assert_equal i, seq._lookup_idx(i)
-        }
-      end
+    class ListMaxxed < List
+      def chunk_regex; /./m end
+      def idx2chunknum(i) i end
     end
 
     class List1 < Indexed
