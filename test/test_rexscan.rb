@@ -158,17 +158,19 @@ $Debug=true
     end
     
     class List < Indexed
-      def a_seq
-      
-        seq = Sequence::List.new(DATA.scan(/.{1,8}/m).map{|str| str.to_sequence})
+      def a_seq      
+        seq = Sequence::List.new(DATA.scan(chunk_regex).map{|str| str.to_sequence})
         seq.pos=OFFSET
         seq
       end
 
+      def idx2chunknum(i) i/8 end
+      def chunk_regex; /.{1,8}/m end
+
       def test__lookup_idx
         seq=a_seq
         (0..DATA.size).map{|i|
-          assert_equal i/8, seq._lookup_idx(i)
+          assert_equal idx2chunknum(i), seq._lookup_idx(i)
         }
       end
 
