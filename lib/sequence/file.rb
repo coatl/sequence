@@ -164,7 +164,7 @@ class File
     end
 end
 
-class StringIO
+class StringIO < Data
     # convert an StringIO to a seq
     def to_sequence
        Sequence::File.new(self)
