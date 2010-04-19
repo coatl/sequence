@@ -246,10 +246,10 @@ class Sequence
       size=self.size
       
       list=[ _default_maxmatchlen,
-                       backwards ? pos : size-pos%size
-                     ]
-                     list.push @maxmatchlen if defined? @maxmatchlen
-                     list.min
+             backwards ? pos : size-pos%size
+      ]
+      list.push @maxmatchlen if defined? @maxmatchlen
+      list.min
     end
 
     #hold current position while executing a block. The block is passed the current
@@ -425,7 +425,7 @@ class Sequence
     end
     
     # Close the sequence.  This will also close/invalidate every child 
-# position or derived sequence.
+    # position or derived sequence.
     def close
         defined? @change_listeners and @change_listeners.each { |p| 
           Sequence===p and p.close 
