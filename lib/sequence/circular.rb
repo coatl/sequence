@@ -5,47 +5,47 @@
 require 'sequence'
 
 class Sequence
-# This Sequence class is used to represent a circular buffer.  You can think of
-# this as having no beginning/end or the current location is always both at the
-# beginning/end.  Because of the circular nature, the methods
-# #scan_until, #modify, 
-# #each, #collect!, and #map!
-# are not defined.
-class Circular < Sequence
+  # This Sequence class is used to represent a circular buffer.  You can think of
+  # this as having no beginning/end or the current location is always both at the
+  # beginning/end.  Because of the circular nature, the methods
+  # #scan_until, #modify,
+  # #each, #collect!, and #map!
+  # are not defined.
+  class Circular < Sequence
     # Create a circular sequence from a normal finite one.
     def initialize(sequence,pos=sequence.pos)
-        @seq = sequence
-        @pos=pos
-        @size=sequence.size
-        extend sequence.like
-        
-        @seq.on_change_notify self
+      @seq = sequence
+      @pos=pos
+      @size=sequence.size
+      extend sequence.like
+
+      @seq.on_change_notify self
     end
-    
-    #the default _parse_slice_args isn't forgiving enough about large 
+
+    #the default _parse_slice_args isn't forgiving enough about large
     #(positive or negative) indexes
     def _normalize_pos pos, size=nil
       pos
     end
-    
+
     def change_notification(cu,first,oldsize,newsize)
       assert(cu.equal?( @seq ))
       @pos =_adjust_pos_on_change(@pos, first,oldsize,newsize)
       @size+=newsize-oldsize
       assert @size==@seq.size
-      notify_change(self,first,oldsize,newsize) 
+      notify_change(self,first,oldsize,newsize)
     end
-    
+
 =begin
     def _adjust_delete(len=1,reverse=false)
-        pos = _pos(false)
-        ret = nil
-        @positions.each { |p| ret = p.__send__(:_deletion,pos,len,reverse,ret) }
+      pos = _pos(false)
+      ret = nil
+      @positions.each { |p| ret = p.__send__(:_deletion,pos,len,reverse,ret) }
     end
     def _adjust_insert(len=1)
-        pos = _pos(false)
-        ret = nil
-        @positions.each { |p| ret = p.__send__(:_insertion,pos,len,ret) }
+      pos = _pos(false)
+      ret = nil
+      @positions.each { |p| ret = p.__send__(:_insertion,pos,len,ret) }
     end
 =end
     attr_reader :pos,:size
@@ -59,7 +59,7 @@ class Circular < Sequence
     def new_data
         @seq.new_data
     end
-=begin **    
+=begin **
     def read1next
         v0 = @seq.read1next
         v0.nil? && @seq.move!(true) && (v0 = @seq.read1next)
@@ -186,21 +186,21 @@ class Circular < Sequence
     end
     alias end! begin!
     alias end begin
-    # Compare to +other+.  
+    # Compare to +other+.
     def <=>(other)
-        position?(other) and pos<=>other.pos
+      position?(other) and pos<=>other.pos
     end
 
 =begin ***
     # insert an element before the position and return self
     def << (value)
-        insert1before(value)
-        self
+      insert1before(value)
+      self
     end
     # insert an element after the position and return self
     def >> (value)
-        insert1after(value)
-        self
+      insert1after(value)
+      self
     end
 =end
     # :stopdoc:
@@ -208,27 +208,27 @@ class Circular < Sequence
     def data
       @seq
     end
-    
+
     def each
       po=position
       yield read1 until self==position
       po.close
     end
-    
+
     def eof?; false end
-    
+
     def readahead(len)
       result=@seq[@pos%size,len]
       len-=result.size
       len.zero? and return result
       loops=len/size
-      
+
       result+=@seq[0...size]*loops if loops.nonzero?
-      
+
       len%=size
-      
+
       len.zero? and return result
-      
+
       result+=@seq[0,len]
     end
 
@@ -237,35 +237,35 @@ class Circular < Sequence
       move len
       result
     end
-    
+
     def modify(*args)
       data=args.last
       first,len,only1=_parse_slice_args(*args[0...-1])
       first %= size
-      
+
       len>size and raise( ArgumentError, "dst len too long")
       first+len>size and raise( ArgumentError, "wraparound modify in circular")
 
       @seq.modify(*args)
     end
-    
+
     #when reversed and circular, always put the Circular outermost.
     def reverse
       Circular.new @seq.reverse
     end
-    
-    def nearbegin(len,at=pos) 
+
+    def nearbegin(len,at=pos)
       false
     end
-    
+
     def nearend(len,at=pos)
       false
     end
-    
+
     def closed?
       super or @seq.closed?
     end
-end
+  end
 end
 
 
