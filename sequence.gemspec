@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
-
-require "#{File.dirname(__FILE__)}/lib/sequence/version"
-Sequence::Description=open("README.txt"){|f| f.read[/^==+ ?description[^\n]*?\n *\n?(.*?\n *\n.*?)\n *\n/im,1] }
-Sequence::Latest_changes="###"+open("History.txt"){|f| f.read[/\A===(.*?)(?====)/m,1] }
+dir=File.dirname(__FILE__)
+require "#{dir}/lib/sequence/version"
+Sequence::Description=open("#{dir}/README.txt"){|f| f.read[/^==+ ?description[^\n]*?\n *\n?(.*?\n *\n.*?)\n *\n/im,1] }
+Sequence::Latest_changes="###"+open("#{dir}/History.txt"){|f| f.read[/\A===(.*?)(?====)/m,1] }
 
 Gem::Specification.new do |s|
   s.name = "sequence"
