@@ -1,6 +1,6 @@
 # Copyright (C) 2006  Caleb Clausen
 # Distributed under the terms of Ruby's license.
-require 'sequence'
+#require 'sequence'
 class Sequence
   # define #read in terms of #data and @pos.
   # #data must support #[]

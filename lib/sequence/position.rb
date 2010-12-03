@@ -2,7 +2,7 @@
 # Copyright (C) 2006  Caleb Clausen
 # Distributed under the terms of Ruby's license.
 
-require 'sequence'
+#require 'sequence'
 require 'sequence/usedata'
 
 class Sequence
