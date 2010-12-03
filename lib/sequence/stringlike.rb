@@ -216,7 +216,9 @@ class Sequence
   def _anchor(str,backwards=false,cache=true)
     cache and result=@@anchor_cache[[str,backwards]] and return result
     result=backwards ? "(?:#{str})\\Z" : "\\A(?:#{str})"
-    cache and return @@anchor_cache[[str,backwards]]||=Regexp.new( result )
+    cache and return @@anchor_cache[[str,backwards]]||=Regexp.new( result, 0, 'n' )
+      #is it really correct to force regexp to be binary encoding here? not sure
+      #maybe encoding of str should be detected and reused?
     return result
   end
  
