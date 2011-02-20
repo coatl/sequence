@@ -65,7 +65,7 @@ end
 
   # add a weak reference to the set
   def add(obj)
-    return self if include? obj
+#    return self if include? obj
 #        Symbol===obj || Fixnum===obj || nil==obj || true==obj || false==obj and 
 #          raise ArgumentError, "no immediates in weakrefset"
         id=ref obj
