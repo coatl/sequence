@@ -4,21 +4,24 @@ class Sequence
   class Circular < Sequence; end
   class List < Sequence
     def initialize(seqs)
-      seqs.empty? and raise ArgumentError
+      seqs.empty? and raise( ArgumentError, 'empty List not allowed' )
       @list=seqs
       @current_idx=0
       @pos=0
       @start_pos=[0]
       
       @list=@list.inject([]){|li,seq|
-        Circular===seq and raise 'no circular seqs in lists'
-        Sequence===seq or raise ArgumentError
-        if List===seq then li+seq.list else li<<seq end
+        seq=seq.to_sequence
+        case seq
+        when Circular; raise ArgumentError, 'no circular seqs in lists'
+        when List; li+seq.list 
+        else li<<seq 
+        end
       }
       @list.each{|seq| seq.on_change_notify(self) }
       _rebuild_idxs
       
-      extend seqs.first.like
+      extend @list.first.like
     end
  
     attr :list
