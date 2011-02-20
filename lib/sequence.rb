@@ -34,7 +34,7 @@ class Sequence
 #  WeakRefSet=::Set
 #  warn "warning: sequence uses Set instead of WeakRefSet; memory leak results"
 
-  include Comparable
+  #include Comparable #bah, endless trouble, no use
   include Enumerable
   extend Forwardable
 
