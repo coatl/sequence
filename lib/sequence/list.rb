@@ -173,7 +173,13 @@ class Sequence
       return idx
     end
     
-
+    module Overlaid
+        def overlaid?; true end
+        def subseq(*)
+          super.extend Overlaid
+        end
+    end
+=begin was
     Overlaid =proc do
       class<<self
         def overlaid?; true end
@@ -184,6 +190,7 @@ class Sequence
         end
       end
     end
+=end
 
     def modify(*args)
       result=repldata=args.pop
@@ -195,7 +202,8 @@ class Sequence
 
       
         #mark replacement data as overlaid
-        repldata.instance_eval(&Overlaid)
+        #repldata.instance_eval(&Overlaid)
+        repldata.extend Overlaid
 #      end
       replseqs=[repldata]
 
@@ -269,7 +277,8 @@ class Sequence
           return self
         end
         data=data.dup.to_sequence
-        data.instance_eval(&Overlaid)
+        #data.instance_eval(&Overlaid)
+        data.extend Overlaid
         @list<<data
         @start_pos<<@start_pos.last+data.size  
         notify_change(self,@start_pos[-2], 0, data.size)
@@ -281,7 +290,8 @@ class Sequence
           return self
         end
         data=data.dup.to_sequence
-        data.instance_eval(&Overlaid)
+        #data.instance_eval(&Overlaid)
+        data.extend Overlaid
         @list[0,0]=data
 
         #insert data.size into beginning of @start_pos
