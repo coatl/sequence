@@ -25,8 +25,8 @@ very much a derivative of his.
 
 
 Sequences always fall into one of two broad categories: string-like and
-array- like. String-like cursors contain only character data, whereas
-Array-like cursors contain objects. 
+array- like. String-like sequences contain only character data, whereas
+Array-like sequences contain objects. 
  
 
 
