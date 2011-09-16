@@ -164,13 +164,15 @@ $Debug=true
         seq
       end
 
-      def idx2chunknum(i) i/8 end
+      def idx2chunknum(i,seq) 
+         i/8 
+      end
       def chunk_regex; /.{1,8}/m end
 
       def test__lookup_idx
         seq=a_seq
         (0..DATA.size).map{|i|
-          assert_equal idx2chunknum(i), seq._lookup_idx(i)
+          assert_equal idx2chunknum(i,seq), seq._lookup_idx(i)
         }
       end
 
@@ -178,7 +180,10 @@ $Debug=true
 
     class ListMaxxed < List
       def chunk_regex; /./m end
-      def idx2chunknum(i) i end
+      def idx2chunknum(i,seq) 
+        return seq.size-1 if i>=seq.size
+        i 
+      end
     end
 
     class List1 < Indexed
