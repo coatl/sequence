@@ -1,19 +1,23 @@
 = sequence
 
-* http://sequence.rubyforge.org/
 * http://github.com/coatl/sequence
+* http://sequence.rubyforge.org/
 
 == DESCRIPTION:
 Sequence provides a unified api for access to sequential data types, like
-Strings, Arrays, Files, IOs, and Enumerations. Each sequence encapsulates
-some data and a current position within it. Some operations apply to data
-at (or relative to) the position, others are independant of position. The
-api contains operations for moving the position, reading and writing data
-(with or without moving the position) forward or backward from the current
-position or anywhere, scanning for patterns (like StringScanner, but it
-works in Files too, among others), and saving a position that will remain
-valid even after data is deleted or inserted elsewhere within the
-sequence. 
+Strings, Arrays, Files, IOs, and Enumerations. This is the external 
+iterator pattern (ruby's usual iterators are internal). Each sequence 
+encapsulates some data and a current position within it. Some operations 
+apply to data at (or relative to) the position, others are independant 
+of position. The api contains operations for moving the position, and 
+reading  and writing data (with or without moving the position) forward 
+or backward from the current position or anywhere.
+
+Its perhaps most unusual feature is the ability to scan for Regexps in
+not just Strings, but Files and any other type of sequence. 
+
+It can also save a position that will remain valid even after data is 
+deleted or inserted elsewhere within the sequence. 
 
 There are also some utility classes for making sequences reversed or
 circular, turning one-way sequences into two-way, buffering, and making
@@ -54,7 +58,7 @@ No unit tests at all for array-like sequences
 
 == LICENSE:
 
-Copyright (C) 2006,2008  Caleb Clausen  
+Copyright (C) 2006,2008, 2011  Caleb Clausen  
 Distributed under the terms of Ruby's license. (See the file COPYING.)
 
 == USING:
