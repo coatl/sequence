@@ -1,3 +1,4 @@
+#Copyright (C) 2011 Caleb Clausen
 name=Sequence
 lname=sequence
 gemname=sequence

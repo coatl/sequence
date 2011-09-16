@@ -1,3 +1,4 @@
+#Copyright (c) 2011 Caleb Clausen
 require 'stringio'
 class StringIO < Data
     # convert an StringIO to a seq

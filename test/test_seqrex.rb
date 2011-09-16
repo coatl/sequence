@@ -1,4 +1,4 @@
-# Copyright (C) 2006  Caleb Clausen
+# Copyright (C) 2006, 2011  Caleb Clausen
 # Distributed under the terms of Ruby's license.
 $VERBOSE=1
 
