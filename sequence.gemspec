@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
   s.test_files = %w[test/test_all.rb]
   s.summary = "A single api for reading and writing sequential data types."
   s.description = Sequence::Description
+  s.license="GPL-2.0"
 
 =begin
   if s.respond_to? :specification_version then
