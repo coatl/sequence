@@ -82,29 +82,36 @@ end
       assert_equal "[/([\\A]|^asdf(df)s)/, []]", _.inspect
 
 
-oldVERBOSE=$VERBOSE
-$VERBOSE=nil
-eval <<'END'
-      _=@cu.group_anchors(/([\A[~]|^asdf(df)s)/,true)
-      assert_equal "[/(?-mix:([\\A[~]|(^)asdf(df)s))/, [2]]", _.inspect
+      #yuck! supporting old ruby versions (<2.0) in this block.
+      #maybe just delete this?
+        begin
+          eval %{  /[[]/  }
+        rescue SyntaxError
+          open_bracket_in_char_class_needs_bs=true
+        end
+        oldVERBOSE=$VERBOSE
+        $VERBOSE=nil
+        eval <<'END' unless open_bracket_in_char_class_needs_bs
+          _=@cu.group_anchors(/([\A[~]|^asdf(df)s)/,true)
+          assert_equal "[/(?-mix:([\\A[~]|(^)asdf(df)s))/, [2]]", _.inspect
 
-      _=@cu.group_anchors(/(\A|[z^[~]asdf(df)s)/,nil)
-      assert_equal "[/(\\A|[z^[~]asdf(df)s)/, []]", _.inspect
+          _=@cu.group_anchors(/(\A|[z^[~]asdf(df)s)/,nil)
+          assert_equal "[/(\\A|[z^[~]asdf(df)s)/, []]", _.inspect
 
-      _=@cu.group_anchors(/(\A|[z^[~]asdf(df)s)/,true)
-      assert_equal "[/(?-mix:((?!)|[z^[~]asdf(df)s))/, []]", _.inspect
+          _=@cu.group_anchors(/(\A|[z^[~]asdf(df)s)/,true)
+          assert_equal "[/(?-mix:((?!)|[z^[~]asdf(df)s))/, []]", _.inspect
 
-      _=@cu.group_anchors(/([\A[~]|^asdf(df)s)/,nil)
-      assert_equal "[/([\\A[~]|^asdf(df)s)/, []]", _.inspect
-END
-$VERBOSE=oldVERBOSE
+          _=@cu.group_anchors(/([\A[~]|^asdf(df)s)/,nil)
+          assert_equal "[/([\\A[~]|^asdf(df)s)/, []]", _.inspect
+        END
+        $VERBOSE=oldVERBOSE
 
       _=@cu.group_anchors(/([\A\[~]|^asdf(df)s)/,true)
       assert_equal "[/(?-mix:([\\A\\[~]|(^)asdf(df)s))/, [2]]", _.inspect
-
+	
       _=@cu.group_anchors(/(\A|[z^\[~]asdf(df)s)/,nil)
       assert_equal "[/(\\A|[z^\\[~]asdf(df)s)/, []]", _.inspect
-
+	
       _=@cu.group_anchors(/(\A|[z^\[~]asdf(df)s)/,true)
       assert_equal "[/(?-mix:((?!)|[z^\\[~]asdf(df)s))/, []]", _.inspect
 
