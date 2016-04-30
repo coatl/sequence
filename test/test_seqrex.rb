@@ -91,7 +91,7 @@ end
         end
         oldVERBOSE=$VERBOSE
         $VERBOSE=nil
-        eval <<'END' unless open_bracket_in_char_class_needs_bs
+        eval <<-'END' unless open_bracket_in_char_class_needs_bs
           _=@cu.group_anchors(/([\A[~]|^asdf(df)s)/,true)
           assert_equal "[/(?-mix:([\\A[~]|(^)asdf(df)s))/, [2]]", _.inspect
 
